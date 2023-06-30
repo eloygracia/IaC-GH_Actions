@@ -35,17 +35,4 @@ jobs:
         run: terraform apply -auto-approve
 
       - name: Terraform Output
-        id: output
-        run: |
-          echo "::set-output name=instance_ip::$(terraform output -json instance_ip | jq -r '.value')"
-          echo "::set-output name=instance_id::$(terraform output -json instance_id | jq -r '.value')"
-      
-      - name: Comment IP address
-        uses: peter-evans/commit-comment@v2
-        with:
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          body: "EC2 instance is available at: http://${{ steps.output.outputs.instance_ip }}:80"
-              
-      - name: Echo IP address
-        run: | 
-          echo "EC2 instance is available at: http://${{ steps.output.outputs.instance_ip }}:80"
+        run: terraform output -json > output.json
