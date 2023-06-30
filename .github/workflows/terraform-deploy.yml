@@ -41,4 +41,5 @@ jobs:
           echo "::set-output name=ip::$(awk -F'"' '/instance_public_ip/{print $4}' output.json)"
 
       - name: Print Output
-        run: echo "Instance IP: ${{ steps.terraform_output.outputs.ip }}"
+        run: | 
+            echo "Instance IP: ${{ steps.terraform_output.outputs.ip }}"
