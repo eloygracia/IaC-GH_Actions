@@ -35,10 +35,8 @@ jobs:
       run: terraform apply -auto-approve
 
     - name: Terraform Output
-      id: terraform
       run: terraform output
     
     - name: Display Public IP
-      run: terraform output -json instance_ips
-    
+      run: echo ${{ steps.Terraform.outputs.public_ip }}
     
