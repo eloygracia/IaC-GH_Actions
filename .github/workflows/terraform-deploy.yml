@@ -37,11 +37,11 @@ jobs:
         run: |
           ip_address=$(grep -oP 'instance_public_ip = "\K[^"]+' output.log | tail -1)
           formatted_ip="http://$ip_address:80"
-          echo "::set-output name=formatted_ip::$formatted_ip"
+          echo "formatted_ip=$formatted_ip" >> $GITHUB_ENV
       
       - name: Print Public IP
         run: |
-          ip_address="${{ steps.extract_ip.outputs.formatted_ip }}"
+          ip_address="${{ env.formatted_ip }}"
           echo "The IP address is $ip_address"
-          echo "::set-output name=ip_address::$ip_address"
+          echo "ip_address=$ip_address" >> $GITHUB_ENV
           echo "The IP might not be available right after creation, in that case, please wait a few minutes and try again."
