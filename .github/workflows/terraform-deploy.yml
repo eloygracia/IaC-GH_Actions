@@ -28,17 +28,15 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
-      - name: Terraform Plan
-        run: terraform plan
-
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        id: terraform_apply
+        run: terraform apply -auto-approve | tee output.log
 
-      - name: Terraform Output
-        id: terraform_output
+      - name: Extract IP from Terraform Apply
+        id: extract_ip
         run: |
-          terraform output -json instance_public_ip > output.json
-          echo "::set-output name=ip_address::$(jq -r '.value' output.json)"
+          ip_address=$(grep -oP 'instance_public_ip = "\K[^"]+' output.log | tail -1)
+          echo "::set-output name=ip_address::$ip_address"
       
       - name: Print Output
-        run: echo "The IP address is ${{ steps.terraform_output.outputs.ip_address }}"
+        run: echo "The IP address is ${{ steps.extract_ip.outputs.ip_address }}"
