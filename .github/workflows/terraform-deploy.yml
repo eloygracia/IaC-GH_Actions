@@ -38,6 +38,9 @@ jobs:
       id: output
       run: terraform output -json > output.json
       
+    - name: Print output.json
+      run: cat output.json
+
     - name: Display EC2 Details
       run: |
         public_ip=$(cat output.json | jq -r '.public_ip.value')
