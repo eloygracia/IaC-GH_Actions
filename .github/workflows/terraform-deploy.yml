@@ -41,6 +41,10 @@ jobs:
     # - name: Print output.json
     #   run: cat output.json
 
+    - name: Install jq
+      run: sudo apt-get install jq
+
+
     - name: Display EC2 Details
       run: |
         public_ip=$(cat output.json | jq -r '.instance_public_ip.value')
