@@ -36,10 +36,9 @@ jobs:
 
     - name: Terraform Output
       id: terraform
-      run: |
-        output=$(terraform output -raw instance_public_ip)
-        echo $output > ip.txt
+      run: terraform output -raw
     
     - name: Display Public IP
-      run: cat ip.txt | awk '{print $1}'
+      run: terraform output -json instance_ips | jq -r '.[0]'
+    
     
