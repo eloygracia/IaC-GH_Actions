@@ -40,10 +40,10 @@ jobs:
             terraform output -json > output.json
             cat output.json
       
-            - name: Get Instance Information
-            run: |
-                  INSTANCE_IP=$(aws ec2 describe-instances --instance-ids ${{ env.INSTANCE_ID }} --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
-                  echo "INSTANCE_IP=$INSTANCE_IP" >> $GITHUB_ENV
+    - name: Get Instance Information
+    run: |
+            INSTANCE_IP=$(aws ec2 describe-instances --instance-ids ${{ env.INSTANCE_ID }} --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
+            echo "INSTANCE_IP=$INSTANCE_IP" >> $GITHUB_ENV
               
     - name: Comment IP address
       uses: peter-evans/commit-comment@v2
