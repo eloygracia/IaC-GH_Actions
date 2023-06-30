@@ -44,3 +44,4 @@ jobs:
           ip_address="${{ steps.extract_ip.outputs.formatted_ip }}"
           echo "The IP address is $ip_address"
           echo "::set-output name=ip_address::$ip_address"
+          echo "The IP might not be available right after creation, in that case, please wait a few minutes and try again."
