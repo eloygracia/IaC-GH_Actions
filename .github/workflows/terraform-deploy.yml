@@ -40,7 +40,8 @@ jobs:
       
     - name: Display EC2 Details
       run: |
-        public_ip=$(jq -r '.public_ip.value' output.json)
+        public_ip=$(cat output.json | jq -r '.public_ip.value')
         formatted_public_ip="http://${public_ip}:80"
         echo "Public IP: $formatted_public_ip"
+    
     
