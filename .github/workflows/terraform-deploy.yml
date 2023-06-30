@@ -35,13 +35,6 @@ jobs:
         run: terraform apply -auto-approve
 
       - name: Terraform Output
-        id: terraform_output
-        run: |
-          terraform output -json > output.json
-          ip=$(awk -F'"' '/instance_public_ip/{print $4}')
-          echo "::add-mask::$ip"
-          echo "::set-output name=ip::$ip"
-
-      - name: Print Output
-        run: |
-                echo "Instance IP: ${{ steps.terraform_output.outputs.ip }}"
+        run: 
+          terraform output 
+            echo "The IP address is ${{ steps.Terraform.outputs.ip_address }}"
