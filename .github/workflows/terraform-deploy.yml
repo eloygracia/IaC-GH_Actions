@@ -41,11 +41,11 @@ jobs:
     - name: Print output.json
       run: cat output.json
 
-    - name: Display EC2 Details
+    - name: Display Instance IP
       run: |
-        public_ip=$(cat output.json | jq -r '.instance_public_ip.value')
-        formatted_public_ip="http://${public_ip}:80"
-        echo "Public IP: $formatted_public_ip"
+        ip=$(jq -r '.instance_public_ip.value' output.json)
+        echo "http://$ip:80"
+    
     
     
     
