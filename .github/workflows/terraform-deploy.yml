@@ -39,6 +39,6 @@ jobs:
       run: terraform output
     
     - name: Display Public IP
-      run: terraform output -json instance_ips | jq -r '.[0]'
+      run: terraform output -json instance_ips
     
     
