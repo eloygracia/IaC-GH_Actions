@@ -36,3 +36,11 @@ jobs:
 
       - name: Terraform Output
         run: terraform output -json > output.json
+
+      - name: Print Output
+        run: |
+                # print a line break
+                echo ""
+
+                # print the output
+                cat output.json
