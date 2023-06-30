@@ -36,7 +36,8 @@ jobs:
 
     - name: Terraform Output
       id: terraform
-      run: echo "::set-output name=instance_public_ip::$(terraform output -raw instance_public_ip)"
-
+      run: echo "instance_public_ip=$(terraform output -raw instance_public_ip)" >> $GITHUB_ENV
+    
     - name: Display Public IP
-      run: echo ${{ steps.terraform.outputs.instance_public_ip }}
+      run: echo ${{ env.instance_public_ip }}
+    
