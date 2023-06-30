@@ -36,4 +36,5 @@ jobs:
 
       - name: Terraform Output
         run: |
-          echo "The IP address is $(terraform output -json instance_public_ip | jq -r '.value')"
+          ip_address=$(terraform output -raw instance_public_ip)
+          echo "The IP address is $ip_address"
