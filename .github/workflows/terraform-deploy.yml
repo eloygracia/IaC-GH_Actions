@@ -35,8 +35,12 @@ jobs:
       run: terraform apply -auto-approve
 
     - name: Terraform Output
-      run: terraform output
-    
-    - name: Display Public IP
-      run: echo ${{ steps.Terraform.outputs.public_ip }}
+      id: output
+      run: terraform output -json > output.json
+      
+    - name: Display EC2 Details
+      run: |
+        public_ip=$(jq -r '.public_ip.value' output.json)
+        formatted_public_ip="http://${public_ip}:80"
+        echo "Public IP: $formatted_public_ip"
     
