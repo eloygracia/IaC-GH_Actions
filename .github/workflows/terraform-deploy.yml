@@ -35,6 +35,10 @@ jobs:
         run: terraform apply -auto-approve
 
       - name: Terraform Output
+        id: terraform_output
         run: |
-          ip_address=$(terraform output -raw instance_public_ip)
-          echo "The IP address is $ip_address"
+          terraform output -json instance_public_ip > output.json
+          echo "::set-output name=ip_address::$(jq -r '.value' output.json)"
+      
+      - name: Print Output
+        run: echo "The IP address is ${{ steps.terraform_output.outputs.ip_address }}"
