@@ -36,16 +36,25 @@ jobs:
 
     - name: Terraform Output
       id: output
-      run: terraform output -json > output.json
-      
-    - name: Print output.json
-      run: cat output.json
-
-    - name: Display Instance IP
       run: |
-        ip=$(jq -r '.instance_public_ip.value' output.json)
-        echo "http://$ip:80"
-    
+            terraform output -json > output.json
+            cat output.json
+      
+            - name: Get Instance Information
+            run: |
+                  INSTANCE_IP=$(aws ec2 describe-instances --instance-ids ${{ env.INSTANCE_ID }} --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
+                  echo "INSTANCE_IP=$INSTANCE_IP" >> $GITHUB_ENV
+              
+    - name: Comment IP address
+      uses: peter-evans/commit-comment@v2
+      with:
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        body: "EC2 instance is available at: http://${{ env.INSTANCE_IP }}:80"
+                
+              
+    - name: Echo IP address
+      run: | 
+            echo "EC2 instance is available at: http://$INSTANCE_IP:80"
     
     
     
