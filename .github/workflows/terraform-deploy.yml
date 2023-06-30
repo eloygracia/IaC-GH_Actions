@@ -36,8 +36,12 @@ jobs:
 
     - name: Terraform Output
       id: terraform
-      run: echo "instance_public_ip=$(terraform output -raw instance_public_ip)" >> $GITHUB_ENV
+      run: |
+        output=$(terraform output -raw instance_public_ip)
+        echo "instance_public_ip=$output" >> $GITHUB_ENV
     
     - name: Display Public IP
-      run: echo ${{ env.instance_public_ip }}
+      run: |
+        echo "Instance Public IP: ${{ env.instance_public_ip }}"
+    
     
