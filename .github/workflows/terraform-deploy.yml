@@ -36,7 +36,7 @@ jobs:
 
     - name: Terraform Output
       id: terraform
-      run: terraform output -raw
+      run: terraform output
     
     - name: Display Public IP
       run: terraform output -json instance_ips | jq -r '.[0]'
