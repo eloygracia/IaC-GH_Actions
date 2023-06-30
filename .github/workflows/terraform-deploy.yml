@@ -41,5 +41,5 @@ jobs:
         echo $output > ip.txt
     
     - name: Display Public IP
-      run: cat ip.txt
+      run: cat ip.txt | awk '{print $1}'
     
