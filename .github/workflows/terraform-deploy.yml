@@ -32,11 +32,15 @@ jobs:
         id: terraform_apply
         run: terraform apply -auto-approve | tee output.log
 
-      - name: Extract IP from Terraform Apply
+      - name: Get IP from new instance
         id: extract_ip
         run: |
           ip_address=$(grep -oP 'instance_public_ip = "\K[^"]+' output.log | tail -1)
-          echo "::set-output name=ip_address::$ip_address"
+          formatted_ip="http://$ip_address:80"
+          echo "::set-output name=formatted_ip::$formatted_ip"
       
-      - name: Print Output
-        run: echo "The IP address is ${{ steps.extract_ip.outputs.ip_address }}"
+      - name: Print Public IP
+        run: |
+          ip_address="${{ steps.extract_ip.outputs.formatted_ip }}"
+          echo "The IP address is $ip_address"
+          echo "::set-output name=ip_address::$ip_address"
