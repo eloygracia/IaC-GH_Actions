@@ -1,0 +1,43 @@
+# Terraform Workflow
+
+Este workflow configura un entorno de Terraform y aplica configuraciones de Terraform para crear recursos de infraestructura. También extrae la dirección IP pública de la instancia recién creada e imprime su valor.
+
+## Detalles del Flujo de Trabajo
+
+- **Nombre**: Terraform
+- **Trigger**: Este flujo de trabajo se activa en eventos de push en las ramas `master` o `main`.
+
+## Variables de Entorno
+
+- `AWS_ACCESS_KEY_ID`: ID de acceso a AWS (almacenado en secretos de GitHub).
+- `AWS_SECRET_ACCESS_KEY`: Clave de acceso secreta a AWS (almacenada en secretos de GitHub).
+- `AWS_DEFAULT_REGION`: Región de AWS donde se desplegarán los recursos (configurada en `eu-west-1`).
+
+## Pasos del Flujo de Trabajo
+
+1. **Checkout**
+   - Acción: `actions/checkout@v3.5.3`
+   - Descripción: Realiza la verificación del repositorio de código fuente.
+
+2. **Configurar Terraform**
+   - Acción: `hashicorp/setup-terraform@v2.0.3`
+   - Descripción: Configura el entorno de Terraform.
+
+3. **Terraform Init**
+   - Comando: `terraform init`
+   - Descripción: Inicializa el directorio de trabajo de Terraform.
+
+4. **Terraform Validate**
+   - Comando: `terraform validate`
+   - Descripción: Valida los archivos de configuración de Terraform.
+
+5. **Terraform Apply**
+   - Comando: `terraform apply -auto-approve | tee output.log`
+   - Descripción: Aplica las configuraciones de Terraform para crear recursos de infraestructura. La salida se guarda en `output.log`.
+
+6. **Obtener la IP de la nueva instancia**
+   - Comando: Extrae la dirección IP pública de la instancia recién creada desde `output.log` y la formatea como `http://<ip_address>`. La dirección IP formateada se almacena en la variable de entorno `formatted_ip`.
+   - La razón para extraer la dirección IP desde los logs en lugar de realizar una descripción de la instancia es evitar la configuración de las credenciales de AWS y porque Terraform me estaba dando problemas con ello. Se abrirá un issue para solucionar esto de una manera más profesional.
+
+7. **Imprimir la IP Pública**
+   - Comando: Recupera la dirección IP formateada desde la variable de entorno `formatted_ip` e imprime su valor. Almacena la dirección IP en la variable de entorno `ip_address`.
