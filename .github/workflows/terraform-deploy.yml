@@ -33,6 +33,6 @@ jobs:
 
       - name: Get IP from new instance
         run: |
-          instance_ip=$(terraform output | grep "instance_public_ip")
+          instance_ip=$(terraform output | grep -ioE '([0-9]{2}.{4}')
           echo "Instance IP is available at http://${instance_ip}"
 
