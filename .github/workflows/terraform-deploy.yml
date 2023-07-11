@@ -36,7 +36,7 @@ jobs:
         id: extract_ip
         run: |
           ip_address=$(grep -oP 'instance_public_ip = "\K[^"]+' output.log | tail -1)
-          formatted_ip="http://$ip_address:80"
+          formatted_ip="http://$ip_address"
           echo "formatted_ip=$formatted_ip" >> $GITHUB_ENV
       
       - name: Print Public IP
