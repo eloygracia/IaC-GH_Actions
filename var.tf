@@ -1,7 +1,7 @@
 variable "instance_name" {
   description = "Instance Name"
   type        = string
-  default     = "infra-production"
+  default     = "Terraform 2048"
 }
 
 variable "ssh_key" {
