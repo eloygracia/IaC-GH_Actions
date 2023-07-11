@@ -20,5 +20,5 @@ resource "aws_instance" "instance-2048" {
 }
 
 output "instance_public_ip" {
-value = ["${aws_instance.instance-2048.*.public_ip}"]
+value = aws_instance.instance-2048.*.public_ip
 }
