@@ -32,4 +32,7 @@ jobs:
         run: terraform apply -auto-approve
 
       - name: Get IP from new instance
-        run: terraform output
+        run: |
+          instance_ip=$(terraform output | grep "instance_public_ip" | awk -F "\"" '{print $2}')
+          echo "Instance IP is available at http://${instance_ip}"
+
