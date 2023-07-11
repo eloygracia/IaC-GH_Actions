@@ -33,10 +33,6 @@ jobs:
 
       - name: Get IP from new instance
         run: |
-
-
-          terraform output | grep "instance_public_ip" | awk -F "\"" '{print $2}'
-
           instance_ip=$(terraform output | grep -ioE '([0-9]{1,3}\.){4}'
           echo "Instance IP is available at http://${instance_ip}"
 
